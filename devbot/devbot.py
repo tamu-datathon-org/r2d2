@@ -5,11 +5,16 @@ from flask import Flask, request, make_response
 app = Flask(__name__)
 app.config.from_pyfile("settings.py")
 
-# Need to import utils after intializing Flask app
-from utils import is_authorized_request
-
 slack_client = WebClient(token=app.config.get("SLACK_TOKEN"))
 
+# ======== HELPERS ===========
+def is_authorized_request(request):
+    if "gatekeeper-integration" not in request.headers or request.headers["gatekeeper-integration"] != app.config.get("GATEKEEPER_INTEGRATION_SECRET"):
+        return False
+    return True
+
+
+# ======== ENDPOINTS ============
 
 @app.route("/slack/get-applicants", methods=["POST"])
 def get_applicants_csv():
