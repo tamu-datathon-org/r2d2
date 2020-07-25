@@ -47,19 +47,21 @@ def format_stats_for_message(stats):
     major_count_list = [(major, stats["majors"][major]) for major in stats["majors"]]
     major_count_list.sort(key=lambda x: x[1], reverse=True)
     top_5_majors = [f"{major} ({int(count / stats['num_apps'] * 100)}%)" for major, count in major_count_list[:5]]
+    top_5_majors_str = "Top 5 Majors: " + "\n\t\t|>| ".join(top_5_majors)
 
     school_count_list = [(school, stats["schools"][school]) for school in stats["schools"]]
     school_count_list.sort(key=lambda x: x[1], reverse=True)
     top_5_schools = [f"{school} ({int(count / stats['num_apps'] * 100)}%)" for school, count in school_count_list[:5]]
+    top_5_schools_str = "Top 5 Majors: " + "\n\t\t|>| ".join(top_5_schools)
 
     return f"""
     ```
     ## General Stats:
     Number of applicants: {stats["num_apps"]}
-    
+
     ## Education Stats
     First Generation Students: {stats["first_gen"]} ({int(stats["first_gen"]/stats["num_apps"]*100)}%)
-    Top 5 Majors: {" |>| ".join(top_5_majors)}
-    Top 5 Schools: {" |>|".join(top_5_schools)}
+    Top 5 Majors: {top_5_majors_str}
+    Top 5 Schools: {top_5_schools_str}
     ```
     """
