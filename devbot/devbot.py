@@ -1,15 +1,22 @@
 import json
 from slack import WebClient
 from flask import Flask, request, make_response
+from apscheduler.schedulers.background import BackgroundScheduler
 
 app = Flask(__name__)
 app.config.from_pyfile("settings.py")
 
 # Utils use app, import it after initializing
 from .utils import get_applicant_data, is_authorized_request
-from .stats.stats_updator import format_stats_for_message
+from .stats.stats_updator import format_stats_for_message, update_stats_file
 
 slack_client = WebClient(token=app.config.get("SLACK_TOKEN"))
+
+# Start background process to update stats file intermittently.
+update_stats_file()
+scheduler = BackgroundScheduler()
+scheduler.add_job(update_stats_file, 'interval', seconds=app.config.get("STATS_UPDATE_FREQUENCY"))
+scheduler.start()
 
 # ======== ENDPOINTS ============
 
