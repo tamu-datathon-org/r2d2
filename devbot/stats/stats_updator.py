@@ -56,7 +56,6 @@ def format_stats_for_message(stats):
     ```
     ## General Stats:
     Number of applicants: {stats["num_apps"]}
-    TAMU Applications: {stats["majors"]["Texas A&M University"]}
     
     ## Education Stats
     First Generation Students: {stats["first_gen"]} ({int(stats["first_gen"]/stats["num_apps"]*100)}%)
