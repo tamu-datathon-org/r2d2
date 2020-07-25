@@ -23,15 +23,15 @@ def format_stats_for_message(stats):
     classifications_str = format_dict(stats["classifications"])
     return f"""
     ```
-    ## General Stats:
-    Number of applicants: {stats["num_apps"]}
-    Top 5 Locations: {top_5_locations_str}
-    Gender Distribution: {genders_str}
+  | ## General Stats:
+  | Number of applicants: {stats["num_apps"]}
+  | Top 5 Locations: {top_5_locations_str}
+  | Gender Distribution: {genders_str}
 
-    ## Education Stats
-    First Generation Students: {stats["first_gen"]} ({int(stats["first_gen"]/stats["num_apps"]*100)}%)
-    Classification Distribution: {classifications_str}
-    Top 5 Majors: {top_5_majors_str}
-    Top 5 Schools: {top_5_schools_str}
+  | ## Education Stats
+  | First Generation Students: {stats["first_gen"]} ({int(stats["first_gen"]/stats["num_apps"]*100)}%)
+  | Classification Distribution: {classifications_str}
+  | Top 5 Majors: {top_5_majors_str}
+  | Top 5 Schools: {top_5_schools_str}
     ```
     """

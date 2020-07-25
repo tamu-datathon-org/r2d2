@@ -50,7 +50,7 @@ def get_applicantion_stats():
         if not data:
             return make_response(f"I'm still loading the stats, please try after some time :)", 200)
         
-        msg = f"Application Statistics:\n{format_stats_for_message(data)}"
+        msg = f"Application Statistics:{format_stats_for_message(data)}"
         slack_client.chat_postMessage(
             channel=request_info["channel_id"],
             text=msg

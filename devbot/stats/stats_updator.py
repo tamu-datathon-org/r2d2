@@ -52,7 +52,7 @@ def compute_stats(df):
         if row["gender"] in GENDER_MAP:
             genders[GENDER_MAP[row["gender"]]] += 1
         if row["classification"] in CLASSIFICATION_MAP:
-            genders[CLASSIFICATION_MAP[row["classification"]]] += 1 
+            classifications[CLASSIFICATION_MAP[row["classification"]]] += 1 
     return {
         "timestamp": time.time(),
         "num_apps": len(df),
