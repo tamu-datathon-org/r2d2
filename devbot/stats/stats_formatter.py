@@ -3,15 +3,15 @@ def format_top_n_items(data, n=5):
     item_count_list = [(item, data[item]) for item in data]
     item_count_list.sort(key=lambda x: x[1], reverse=True)
     top_n_items = [
-        f"{item} ({int(count / total_count * 100)}%)" for item, count in item_count_list[:5]]
-    return "\n\t\t|>| ".join(top_n_items)
+        f"{item}: {count} ({int(count / total_count * 100)}%)" for item, count in item_count_list[:5]]
+    return "\n\t\t|>| " + "\n\t\t|>| ".join(top_n_items)
 
 
 def format_dict(data):
     total_count = sum([data[item] for item in data])
     items = [
         f"{item}: {data[item]} ({int(data[item] / total_count * 100)}%)" for item in data]
-    return "\n\t\t    ".join(items)
+    return "\n\t\t|>| " + "\n\t\t|>| ".join(items)
 
 
 def format_stats_for_message(stats):
