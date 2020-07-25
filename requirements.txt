@@ -1,4 +1,5 @@
 aiohttp==3.6.2
+APScheduler==3.6.3
 async-timeout==3.0.1
 attrs==19.3.0
 botocore==1.17.26
@@ -17,12 +18,16 @@ jmespath==0.10.0
 MarkupSafe==1.1.1
 multidict==4.7.6
 mypy-extensions==0.4.3
+numpy==1.19.1
+pandas==1.0.5
 python-dateutil==2.8.1
 python-dotenv==0.14.0
+pytz==2020.1
 PyYAML==5.3.1
 requests==2.24.0
 six==1.15.0
 slackclient==2.7.3
+tzlocal==2.1
 urllib3==1.25.10
 Werkzeug==1.0.1
 yarl==1.4.2
