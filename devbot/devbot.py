@@ -7,7 +7,7 @@ app = Flask(__name__)
 app.config.from_pyfile("settings.py")
 
 # Utils use app, import it after initializing
-from .utils import get_applicant_data, is_authorized_request
+from .utils import get_applicant_data, is_authorized_request, get_attended_events_data
 from .stats import format_stats_for_message, update_stats_file
 
 slack_client = WebClient(token=app.config.get("SLACK_TOKEN"))
@@ -60,6 +60,36 @@ def get_applicantion_stats():
         return make_response(f"Something went wrong, here's what I know: {e}", 200)
     return make_response("")
 
+@app.route("/slack/attended", methods=["POST"])
+def get_attended_emails():
+    request_info = request.form
+
+    try:
+        user_msg = request_info.get('text')
+        # user_msg = '/attended --eventId 5efe2be0c7febf000306be94'
+        event_id = user_msg[user_msg.find('eventId') + len('eventId '):]
+        attended_events_data = get_attended_events_data()
+        data = list(attended_events_data.json())
+
+        attended_list = []
+        msg = ''
+
+        for d in data:
+            if (d['eventId'] == event_id):
+                attended_list.append(d)
+                msg += d['timestamp'] + ',' + d['userAuthId'] + ',' + 'someone@tamu.edu\n'
+
+        slack_client.files_upload(
+            channels=request_info["channel_id"],
+            content=msg,
+            filename="attended_events.csv",
+            initial_comment=f"Here are the participants who attended event {event_id}",
+            title="Attended Events data"
+        )
+
+    except Exception as e:
+        return make_response(f"Something went wrong, here's what I know: {e}", 200)
+    return make_response("")
 
 @app.route("/slack/log-error", methods=["POST"])
 def log_error():
