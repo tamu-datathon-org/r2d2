@@ -60,31 +60,25 @@ def get_applicantion_stats():
         return make_response(f"Something went wrong, here's what I know: {e}", 200)
     return make_response("")
 
-@app.route("/slack/attended", methods=["POST"])
+@app.route("/slack/attended-emails", methods=["POST"])
 def get_attended_emails():
     request_info = request.form
-
     try:
         user_msg = request_info.get('text')
-        # user_msg = '/attended --eventId 5efe2be0c7febf000306be94'
         event_id = user_msg[user_msg.find('eventId') + len('eventId '):]
-        attended_events_data = get_attended_events_data()
+        attended_events_data = get_attended_events_data(event_id)
         data = list(attended_events_data.json())
 
-        attended_list = []
-        msg = ''
-
+        msg = 'timestamp,authId,email'
         for d in data:
-            if (d['eventId'] == event_id):
-                attended_list.append(d)
-                msg += d['timestamp'] + ',' + d['userAuthId'] + ',' + 'someone@tamu.edu\n'
+            msg += '\n' + d['timestamp'] + ',' + d['userAuthId'] + ',' + d['userEmail']
 
         slack_client.files_upload(
             channels=request_info["channel_id"],
             content=msg,
             filename="attended_events.csv",
             initial_comment=f"Here are the participants who attended event {event_id}",
-            title="Attended Events data"
+            title="Event Attended Emails"
         )
 
     except Exception as e:
