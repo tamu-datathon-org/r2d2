@@ -76,7 +76,7 @@ def get_attended_emails():
         slack_client.files_upload(
             channels=request_info["channel_id"],
             content=msg,
-            filename="attended_events.csv",
+            filename="event_attended_emails.csv",
             initial_comment=f"Here are the participants who attended event {event_id}",
             title="Event Attended Emails"
         )
